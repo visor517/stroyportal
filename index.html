@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Стройпортал</title>
+</head>
+<body>
+    <header id="header">
+        <div id="header_row_1">
+            <div class="container">
+                <div class="area">
+                    <span class="icon_area"></span><a href="#" class="area_text">Волгоградская область</a>
+                </div>
+                <nav>
+                    <ul class="menu">
+                        <li class="menu_item"><a href="#">Тендеры</a></li>
+                        <li class="menu_item"><a href="#">База подрядчиков</a></li>
+                        <li class="menu_item"><a href="#">Другие сервисы<span class="icon_chevron"></span></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div id="header_row_2">
+            <div class="container">
+                <img src="images/logo.svg" class="logo" alt="Stroyportal.ru">
+                <div class="button button_catalog"><span class="icon_menu"></span>Каталог</div>
+                <div id="searcher">
+                    <form>
+                        <input type="search" name="search" autocomplete="off" placeholder="Хочу найти..." @blur="onBlur = true" @focus="onFocus = true; onBlur = false; requestFinder()" v-model="request" @input="requestFinder">
+                        <div class="autocomplete" :class="{active: onFocus && requests.length>0}">
+                            <div class="autocomplete_item" v-for="(item,index) in requests" @click="request=item; onFocus=false">{{ item }}</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="button button_list"><span class="icon_list"></span>Список</div>
+                <div class="button avatar">А</div>
+                <script type="text/javascript">
+                    new Vue({
+                        el: '#searcher',
+                        data: {
+                            onFocus: false,
+                            onBlur: true,
+                            request: '',
+                            list: ['какие-то','слова','для','автокомплитера','пусть','будут','такие','and','few','words','in','alemán','zoxq','1234567890'],
+                            requests: []
+                        },
+                        mounted() {
+                            var vm = this;
+                            document.addEventListener("click", function(){
+                                vm.onBlur ?vm.onFocus = false: false
+                            });
+                        },
+                        methods: {
+                            requestFinder() {
+                                this.requests = [];
+                                for (i=0; i<this.list.length; i++) {
+                                    if (this.list[i].includes(this.request) && this.list[i] != this.request) { this.requests.push(this.list[i]) }
+                                }
+                            }
+                        }
+                    })
+                </script>
+            </div>
+        </div>
+    </header>
+</body>
+</html>
